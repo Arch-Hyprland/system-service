@@ -38,6 +38,11 @@ pub fn transform_entry() -> Vec<Entry> {
         let app = parse_entry(desktop.path());
         match app {
             Ok(app) => {
+                let display = app.section("Desktop Entry").attr("NoDisplay");
+                match display {
+                    Some("true") => continue,
+                    _ => (),
+                }
                 let name = app.section("Desktop Entry").attr("Name");
                 let icon = app.section("Desktop Entry").attr("Icon");
                 let cmd = app.section("Desktop Entry").attr("Exec");
